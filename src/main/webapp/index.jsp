@@ -22,6 +22,6 @@
             <input type="submit" value="Login">
         </form>
         
-        <a href="muestraUsuario">Muestra Usuarios</a>
+        <a href="muestraUsuario">Muestra Usuario</a>
     </body>
 </html>
