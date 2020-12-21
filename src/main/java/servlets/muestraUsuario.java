@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Bueno
  */
-public class ValidaUsuarioServlet extends HttpServlet {
+public class muestraUsuario extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,20 +30,16 @@ public class ValidaUsuarioServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private String usuarioCorrecto, passCorrecto;
-    
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        
+
         ServletContext context = config.getServletContext();
-        
-        usuarioCorrecto = config.getInitParameter("usuarioCorrecto");
-        passCorrecto = config.getInitParameter("passCorrecto");
-        
-        context.setAttribute("usuarioCorrecto", usuarioCorrecto);
-        context.setAttribute("passCorrecto", passCorrecto);
-        
+
+        usuarioCorrecto = (String)context.getAttribute("usuarioCorrecto");
+        passCorrecto = (String)context.getAttribute("passCorrecto");
+
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -53,10 +49,12 @@ public class ValidaUsuarioServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ValidaUsuarioServlet</title>");            
+            out.println("<title>Servlet muestraUsuario</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ValidaUsuarioServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet muestraUsuario at " + request.getContextPath() + "</h1>");
+            out.println("<h2>Usuario correcto: " + usuarioCorrecto + "</h2>");
+            out.println("<h2>Password correcto: " + passCorrecto + "</h2>");
             out.println("</body>");
             out.println("</html>");
         } finally {
@@ -90,30 +88,7 @@ public class ValidaUsuarioServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-               PrintWriter out = response.getWriter();
-/*
-        //Simulando valores
-        String usuarioCorrecto = "Juan";
-        String passCorrecto = "123";
-*/
-        String pUsuario = request.getParameter("usuario");
-        String pPassword = request.getParameter("password");
-
-        if (usuarioCorrecto.equals(pUsuario) && passCorrecto.equals(pPassword)) {
-            out.println("<h1>");
-            out.println("Datos correctos");
-            out.println("<br>Usuario:" + pUsuario);
-            out.println("<br>Password:" + pPassword);
-            out.println("</h1>");
-        } else {
-            //Respondemos al navegador con un codigo de estado de No Autorizado
-            response.sendError(response.SC_UNAUTHORIZED, "Las credenciales son incorrectas");
-        }
-
-        //Listado de codigos de error
-        //http://docstore.mik.ua/orelly/java-ent/servlet/appc_01.htm
-        out.close();
-
+        processRequest(request, response);
     }
 
     /**

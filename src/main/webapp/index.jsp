@@ -21,5 +21,7 @@
             <p><label>Contraseña: <input type="password" name="password"></label></p>
             <input type="submit" value="Login">
         </form>
+        
+        <a href="muestraUsuario">Muestra Usuarios</a>
     </body>
 </html>
